@@ -55,11 +55,7 @@ server = http.createServer( function(req, res) {
         var url_parts = url.parse(req.url, true);
         var qry = url_parts.query
 
-        if(!qry.hasOwnProperty('username')){
-            //TODO err
-        }
-
-        console.log(JSON.stringify(users[username]));
+        console.log(JSON.stringify(users[qry.username]));
         res.writeHead(200, {'Content-Type': 'json'});
         res.end(JSON.stringify(users[username]));
     }
