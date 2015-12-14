@@ -57,7 +57,7 @@ server = http.createServer( function(req, res) {
 
         console.log(JSON.stringify(users[qry.username]));
         res.writeHead(200, {'Content-Type': 'json'});
-        res.end(JSON.stringify(users[username]));
+        res.end(JSON.stringify(users[qry.username]));
     }
  
 });
