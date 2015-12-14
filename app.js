@@ -52,7 +52,7 @@ server = http.createServer( function(req, res) {
         });
     }
     else {
-        var url_parts = url.parse(request.url, true)
+        var url_parts = url.parse(req.url, true);
         var qry = url_parts.query
 
         console.log("Not expecting other request types...");
