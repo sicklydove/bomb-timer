@@ -6,28 +6,23 @@
 body p {
 
     font-size: 500%;
-
-
-	-webkit-transition: all 0.3s ease;
--moz-transition: all 0.3s ease;
--o-transition: all 0.3s ease;
--ms-transition: all 0.3s ease;
 }
 
 .timer { 
 	color:black;
 }
 
-.tenTo15
+.fifteenToFive
 {
 	color:#ffbf00;
+	animation-name: yellowToRed;
+    animation-duration: 10s;
 }
 
-.tento5
-{
-	color:#ff8000;
+@keyframes yellowToRed {
+    from {color:#ffff1a;}
+    to {color: #ff4000;}
 }
-
 
 .fiveToBoom{
 	color:#ff4000;
@@ -39,6 +34,10 @@ body p {
 
 	animation-iteration-count: infinite;
 	-webkit-animation-iteration-count: infinite;
+}
+
+.disarmed {
+	color:#39e600;
 }
 
 @keyframes pulse {
@@ -73,47 +72,54 @@ body p {
 
 </style>
 <script>
-function startTimer() {
+function startTimer(explodeTime) { // to be called when the bomb is armed
 	var timerText = document.getElementById("timer");
 	var subText = document.getElementById("subText");
 	timerText.innerHTML = "Awaiting bomb plant...";
 
-	var explosionTime;
+	//var explosionTime = explodeTime;
+	var explosionTime = 1450135411722;
 	var bombTimer = 10;
+
+	var theTime = new Date().getTime();
+	var secTilSplode = (explosionTime - theTime)/1000;
 	
 	
 	var myTimerIntervalID = setInterval(function(){
 		var theTime = new Date().getTime();
-		timerText.innerHTML = bombTimer;	
-		subText.innerHTML = theTime;
+		timerText.innerHTML = secTilSplode;	
+		//subText.innerHTML = secTilSplode;
 		
 		//bombTimer = bombTimer - 1;
-		if(bombTimer < 16 && bombTimer > 10){
-			document.getElementById("timer").className = "tenTo15";
+
+		secTilSplode = (explosionTime - theTime)/1000;
+		if(secTilSplode < 16 && secTilSplode > 5){
+			document.getElementById("timer").className = "fifteenToFive";
 			//timerText.innerHTML += typeof(bombTimer);
 		}
-		if(bombTimer < 11 && bombTimer > 5){
-			document.getElementById("timer").className = "tento5";
-		}
-		if(bombTimer < 6){
+		if(secTilSplode < 6){
 			document.getElementById("timer").className = "fiveToBoom";
 		}
-		if(bombTimer == 0)
+		if(secTilSplode == 0 || secTilSplode < 0)
 		{
 			timerText.innerHTML = "<b>Booom!</b>";
 			clearInterval(myTimerIntervalID);
 		}
-		bombTimer = bombTimer - 1;
-	},1000);
+		//bombTimer = bombTimer - 1;
+	},200);
+}
+
+function disarmed(){ // Call when bomb disarmed
+	document.getElementById("timer").className = "disarmed";
 }
 </script>
 </head>
 <body onload="startTimer()">
 	<center>
 	
-	<div id="pre15">
-		<p id="timer"></p>
-	</div>
+
+
+	<p id="timer"></p>
 	<p id="subText"></p>
 	
 	</center>
