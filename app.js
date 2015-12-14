@@ -46,6 +46,7 @@ server = http.createServer( function(req, res) {
                 }
             }
 
+            users[username] = player;
             console.log(users);
 
         	res.end( '' );
