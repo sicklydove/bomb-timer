@@ -1,8 +1,8 @@
 http = require('http');
 fs = require('fs');
+url = require('url')
  
 port = 3000;
-host = '127.0.0.1';
 
 users = {}
 BOMB_SECS = 40
@@ -46,12 +46,17 @@ server = http.createServer( function(req, res) {
                 }
             }
 
+            console.log(users);
+
         	res.end( '' );
         });
     }
-    else
-    {
+    else {
+        var url_parts = url.parse(request.url, true)
+        var qry = url_parts.query
+
         console.log("Not expecting other request types...");
+        console.log(qry);
         res.writeHead(200, {'Content-Type': 'text/html'});
 		var html = '<html><body>HTTP Server at http://' + host + ':' + port + '</body></html>';
         res.end(html);
@@ -59,5 +64,5 @@ server = http.createServer( function(req, res) {
  
 });
  
-server.listen(port, host);
-console.log('Listening at http://' + host + ':' + port);
+server.listen(port);
+console.log('Listening on port ' + port);
