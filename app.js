@@ -55,11 +55,13 @@ server = http.createServer( function(req, res) {
         var url_parts = url.parse(req.url, true);
         var qry = url_parts.query
 
-        console.log("Not expecting other request types...");
-        console.log(qry);
-        res.writeHead(200, {'Content-Type': 'text/html'});
-		var html = '<html><body>HTTP Server at http://' + host + ':' + port + '</body></html>';
-        res.end(html);
+        if(!qry.hasOwnProperty('username')){
+            //TODO err
+        }
+
+        console.log(JSON.stringify(users[username]));
+        res.writeHead(200, {'Content-Type': 'json'});
+        res.end(JSON.stringify(users[username]));
     }
  
 });
