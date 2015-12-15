@@ -5,83 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-<style> 
-
-body p {
-    font-size: 500%;
-}
-
-.timer { 
-	color:black;
-}
-
-.fifteenToFive
-{
-	color:#ffbf00;
-	animation-name: yellowToRed;
-    animation-duration: 10s;
-}
-
-@keyframes yellowToRed {
-    from {color:#ffff1a;}
-    to {color: #ff4000;}
-}
-
-.fiveToBoom{
-	color:#ff4000;
-	animation-name: pulse;
-	-webkit-animation-name: pulse;	
-
-	animation-duration: 1s;	
-	-webkit-animation-duration: 1s;
-
-	animation-iteration-count: infinite;
-	-webkit-animation-iteration-count: infinite;
-}
-
-.disarmed {
-	color:#39e600;
-}
-
-@keyframes pulse {
-	0% {
-		transform: scale(0.9);
-		opacity: 0.7;		
-	}
-	50% {
-		transform: scale(1);
-		opacity: 1;	
-	}	
-	100% {
-		transform: scale(0.9);
-		opacity: 0.7;	
-	}			
-}
-
-@-webkit-keyframes pulse {
-	0% {
-		-webkit-transform: scale(0.95);
-		opacity: 0.7;		
-	}
-	50% {
-		-webkit-transform: scale(1);
-		opacity: 1;	
-	}	
-	100% {
-		-webkit-transform: scale(0.95);
-		opacity: 0.7;	
-	}			
-}
-
-body {
-  padding-top: 50px;
-}
-.starter-template {
-  padding: 40px 15px;
-  text-align: center;
-}
-
-</style>
+<link rel="stylesheet" href="styles.css"> 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script>
@@ -95,7 +19,7 @@ function startTimer(explosionTime) {
 	var timerText = document.getElementById('timer');
 
 	var myTimerIntervalID = setInterval(function(){
-		timerText.innerHTML = secTilSplode;	
+		timerText.innerHTML = secTilSplode.toFixed(3);	
 
 		if(secTilSplode < 16 && secTilSplode > 5){
 			document.getElementById("timer").className = "fifteenToFive";
