@@ -8,7 +8,6 @@
 <style> 
 
 body p {
-
     font-size: 500%;
 }
 
@@ -89,20 +88,15 @@ body {
 
 var poll_interval_id = null;
 
-function startTimer(explosionTime) { // to be called when the bomb is armed
-	var timerText = document.getElementById("timer");
-	var subText = document.getElementById("subText");
-	timerText.innerHTML = "Awaiting bomb plant...";
-
+function startTimer(explosionTime) {
+	var timer_interval = 50;
 	var theTime = new Date().getTime();
 	var secTilSplode = (explosionTime - theTime)/1000;
-	
-	
+	var timerText = document.getElementById('timer');
+
 	var myTimerIntervalID = setInterval(function(){
-		var theTime = new Date().getTime();
 		timerText.innerHTML = secTilSplode;	
-		
-		secTilSplode = (explosionTime - theTime)/1000;
+
 		if(secTilSplode < 16 && secTilSplode > 5){
 			document.getElementById("timer").className = "fifteenToFive";
 		}
@@ -114,7 +108,10 @@ function startTimer(explosionTime) { // to be called when the bomb is armed
 			timerText.innerHTML = "<b>Booom!</b>";
 			clearInterval(myTimerIntervalID);
 		}
-	}, 200);
+
+		theTime += timer_interval;
+		secTilSplode = (explosionTime - theTime)/1000;
+	}, timer_interval);
 }
 
 function disarmed(){ // Call when bomb disarmed
@@ -127,14 +124,21 @@ function getBombStatus(username){
 			data: {username : username},
 			crossDomain: true,
 			error: function(data){
+					$('#good-player').hide();
 					$('#bad-player').show();
 					clearInterval(poll_interval_id);
 			},
 			success: function(data){
 				$('#bad-player').hide();
+				$('#good-player').show();
 
 				if(data['planted']){
 						startTimer(data['explodes_at']);
+						$('#timer').show();
+				}
+				else{
+					$('#timer').removeClass('fiveToBoom');
+					$('#timer').hide();
 				}
 			}
 		});
@@ -174,7 +178,8 @@ $(document).ready(function() {
 					<input type="text" id="username" placeholder="Username" name="username" class="form-control">
 					<button type="submit" class="btn btn-default">Submit</button>
 				</div>
-				<div class="alert alert-danger" role="alert" id="bad-player" style="display:none">No player found!</div>
+				<div class="alert alert-danger" role="alert" id="bad-player" style="display:none">Player not in-game!</div>
+				<div class="alert alert-success" role="alert" id="good-player" style="display:none">Game found, watching for plants...</div>
 				</form>
 				<p id="timer"></p>
 				<p id="subText"></p>

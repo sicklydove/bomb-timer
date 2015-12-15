@@ -1,7 +1,6 @@
 http = require('http');
 fs = require('fs');
 url = require('url')
-process = require('process');
  
 BOMB_SECS = 40
 PORT = 3000;
@@ -35,7 +34,8 @@ server = http.createServer( function(req, res) {
                 if(gamestate.round.bomb == "planted" && !player.planted){
                     player = {
                         "planted": true,
-                        "explodes_at": gamestate.provider.timestamp + (BOMB_SECS * 1000)
+                        // csgo timestamp is seconds since epoch - convert to millis
+                        "explodes_at": (gamestate.provider.timestamp + BOMB_SECS) * 1000
                     }
                 }
 
@@ -50,7 +50,7 @@ server = http.createServer( function(req, res) {
                 delete(users[username]);
             }
 
-        	res.end( '' );
+        	res.end('');
         });
     }
 
@@ -62,9 +62,11 @@ server = http.createServer( function(req, res) {
         res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
 
         var qry = url.parse(req.url, true).query;
+        if(!qry.hasOwnProperty('username')){
+            res.end('');
+        }
 
         res.writeHead(200, {'Content-Type': 'application/json'});
-
         res.end(JSON.stringify(users[qry.username]));
     }
  
@@ -72,7 +74,7 @@ server = http.createServer( function(req, res) {
  
 // Don't do this...
 process.on('uncaughtException', function (err) {
-  console.log('Caught exception: ' + err);
+  console.log('Gotta catch em all!: ' + err);
 });
 
 console.log('Listening on port ' + PORT);
