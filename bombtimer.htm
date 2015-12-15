@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html language="en">
 <head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <style> 
 
 body p {
@@ -70,7 +74,17 @@ body p {
 	}			
 }
 
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
 </style>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script>
 function startTimer(explodeTime) { // to be called when the bomb is armed
 	var timerText = document.getElementById("timer");
@@ -88,14 +102,10 @@ function startTimer(explodeTime) { // to be called when the bomb is armed
 	var myTimerIntervalID = setInterval(function(){
 		var theTime = new Date().getTime();
 		timerText.innerHTML = secTilSplode;	
-		//subText.innerHTML = secTilSplode;
 		
-		//bombTimer = bombTimer - 1;
-
 		secTilSplode = (explosionTime - theTime)/1000;
 		if(secTilSplode < 16 && secTilSplode > 5){
 			document.getElementById("timer").className = "fifteenToFive";
-			//timerText.innerHTML += typeof(bombTimer);
 		}
 		if(secTilSplode < 6){
 			document.getElementById("timer").className = "fiveToBoom";
@@ -105,23 +115,59 @@ function startTimer(explodeTime) { // to be called when the bomb is armed
 			timerText.innerHTML = "<b>Booom!</b>";
 			clearInterval(myTimerIntervalID);
 		}
-		//bombTimer = bombTimer - 1;
-	},200);
+	}, 200);
 }
 
 function disarmed(){ // Call when bomb disarmed
 	document.getElementById("timer").className = "disarmed";
 }
+
+$(document).ready(function() {
+	$('#username').on('change', function(){
+
+		var url = 'http://www.farragar.com?username=' + $(this).val() +':3000';
+
+		$.ajax({
+			url: encodeURIComponent(url),
+			success: function(data){
+				if(data['planted']){
+					startTimer(data['explodes_at']);
+				}
+			}
+		});
+	});
+
+})
+
 </script>
 </head>
-<body onload="startTimer()">
-	<center>
-	
 
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">CSGO Bomb Timer</a>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
 
-	<p id="timer"></p>
-	<p id="subText"></p>
-	
-	</center>
+    <div class="container">
+
+      <div class="starter-template">
+      	<div class="input-group">
+					<input type="text" id="username" placeholder="Username" name="username" class="form-control">
+				</div>
+				<p id="timer"></p>
+				<p id="subText"></p>
+      </div>
+
+    </div><!-- /.container -->
+
 </body>
 </html>
