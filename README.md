@@ -10,4 +10,4 @@ Displays the current time remaining on a csgo bomb. Props to https://github.com/
 
 TODOs: 
  - Websockets
- - Persistant storage
+ - Persistent storage
