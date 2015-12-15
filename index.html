@@ -121,8 +121,8 @@ function disarmed(){ // Call when bomb disarmed
 $(document).ready(function() {
 	$('#username').on('change', function(){
 
-		$.get({
-			url: location.hostname+':3000',
+		$.ajax({
+			url: 'http://www.farragar.com:3000',
 			data: {username : $(this).val()},
 			crossDomain: true,
 			success: function(data){
