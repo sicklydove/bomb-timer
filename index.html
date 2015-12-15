@@ -86,14 +86,10 @@ body {
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script>
-function startTimer(explodeTime) { // to be called when the bomb is armed
+function startTimer(explosionTime) { // to be called when the bomb is armed
 	var timerText = document.getElementById("timer");
 	var subText = document.getElementById("subText");
 	timerText.innerHTML = "Awaiting bomb plant...";
-
-	//var explosionTime = explodeTime;
-	var explosionTime = 1450135411722;
-	var bombTimer = 10;
 
 	var theTime = new Date().getTime();
 	var secTilSplode = (explosionTime - theTime)/1000;
@@ -125,10 +121,10 @@ function disarmed(){ // Call when bomb disarmed
 $(document).ready(function() {
 	$('#username').on('change', function(){
 
-		var url = location.hostname + '?username=' + $(this).val() +':3000';
-
-		$.ajax({
-			url: encodeURIComponent(url),
+		$.get({
+			url: location.hostname+':3000',
+			data: {username : $(this).val()},
+			crossDomain: true,
 			success: function(data){
 				if(data == ''){
 					$('#bad-player').show();
