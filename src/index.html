@@ -35,6 +35,7 @@ function startTimer(explosionTime) {
 
 		theTime += timer_interval;
 		secTilSplode = (explosionTime - theTime)/1000;
+		secTilSplode = Math.max(0, secsTilSplode);
 	}, timer_interval);
 }
 
@@ -71,7 +72,7 @@ function getBombStatus(username){
 $(document).ready(function() {
 	$('#username-form').on('submit', function(e){
 		e.preventDefault();
-		poll_interval_id = setInterval(getBombStatus, 500, $('#username').val());
+		poll_interval_id = setInterval(getBombStatus, 1000, $('#username').val());
 	});
 });
 
