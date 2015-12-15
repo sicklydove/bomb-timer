@@ -126,18 +126,26 @@ $(document).ready(function() {
 	$('#username').on('change', function(){
 
 		var url = 'http://www.farragar.com?username=' + $(this).val() +':3000';
+		//var url = 'http://127.0.0.1?username=' + $(this).val() +':3000';
 
 		$.ajax({
 			url: encodeURIComponent(url),
 			success: function(data){
-				if(data['planted']){
-					startTimer(data['explodes_at']);
+				if(data == ''){
+					$('#bad-player').show();
+				}
+
+				else{
+					$('#bad-player').hide();
+
+					if(data['planted']){
+							startTimer(data['explodes_at']);
+					}
 				}
 			}
 		});
 	});
-
-})
+});
 
 </script>
 </head>
@@ -162,6 +170,7 @@ $(document).ready(function() {
       <div class="starter-template">
       	<div class="input-group">
 					<input type="text" id="username" placeholder="Username" name="username" class="form-control">
+					<div class="alert alert-danger" role="alert" id="bad-player" style="display:none">No player found!</div>
 				</div>
 				<p id="timer"></p>
 				<p id="subText"></p>
