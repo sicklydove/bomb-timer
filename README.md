@@ -1,6 +1,8 @@
 # bomb-timer
 Displays the current time remaining on a csgo bomb. Props to https://github.com/LangdalP/GoTimer for the idea. 
 
+![Example screenshot](http://example.png "Example screenshot")
+
  USAGE:
  - Download gamestate_integration_go_timer and copy to your csgo config directory, typically X:\PATH_TO_STEAM\steamapps\common\Counter-Strike Global Offensive\csgo\cfg
  - Restart csgo if already running
