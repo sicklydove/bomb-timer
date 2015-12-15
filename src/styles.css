@@ -1,0 +1,73 @@
+body p {
+    font-size: 500%;
+}
+
+.timer { 
+	color:black;
+}
+
+.fifteenToFive
+{
+	color:#ffbf00;
+	animation-name: yellowToRed;
+    animation-duration: 10s;
+}
+
+@keyframes yellowToRed {
+    from {color:#ffff1a;}
+    to {color: #ff4000;}
+}
+
+.fiveToBoom{
+	color:#ff4000;
+	animation-name: pulse;
+	-webkit-animation-name: pulse;	
+
+	animation-duration: 1s;	
+	-webkit-animation-duration: 1s;
+
+	animation-iteration-count: infinite;
+	-webkit-animation-iteration-count: infinite;
+}
+
+.disarmed {
+	color:#39e600;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.9);
+		opacity: 0.7;		
+	}
+	50% {
+		transform: scale(1);
+		opacity: 1;	
+	}	
+	100% {
+		transform: scale(0.9);
+		opacity: 0.7;	
+	}			
+}
+
+@-webkit-keyframes pulse {
+	0% {
+		-webkit-transform: scale(0.95);
+		opacity: 0.7;		
+	}
+	50% {
+		-webkit-transform: scale(1);
+		opacity: 1;	
+	}	
+	100% {
+		-webkit-transform: scale(0.95);
+		opacity: 0.7;	
+	}			
+}
+
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
