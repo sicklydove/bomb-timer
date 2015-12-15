@@ -13,13 +13,13 @@
 var poll_interval_id = null;
 
 function startTimer(explosionTime) {
-	var timer_interval = 50;
+	var timer_interval = 100;
 	var theTime = new Date().getTime();
 	var secTilSplode = (explosionTime - theTime)/1000;
 	var timerText = document.getElementById('timer');
 
 	var myTimerIntervalID = setInterval(function(){
-		timerText.innerHTML = secTilSplode.toFixed(3);	
+		timerText.innerHTML = secTilSplode.toFixed(1);	
 
 		if(secTilSplode < 16 && secTilSplode > 5){
 			document.getElementById("timer").className = "fifteenToFive";
