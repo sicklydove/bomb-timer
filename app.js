@@ -1,6 +1,7 @@
 http = require('http');
 fs = require('fs');
 url = require('url')
+process = require('process');
  
 BOMB_SECS = 40
 PORT = 3000;
@@ -23,7 +24,6 @@ server = http.createServer( function(req, res) {
             var gamestate = JSON.parse(body);
 
             var username = gamestate.player.name;
-            var timestamp = gamestate.provider.timestamp;
 
             if(!users.hasOwnProperty(username)){
                 users[username] = {'planted': false, 'explodes': null};
@@ -35,7 +35,7 @@ server = http.createServer( function(req, res) {
                 if(gamestate.round.bomb == "planted" && !player.planted){
                     player = {
                         "planted": true,
-                        "explodes_at": timestamp + (BOMB_SECS * 1000)
+                        "explodes_at": gamestate.provider.timestamp + (BOMB_SECS * 1000)
                     }
                 }
 
@@ -70,5 +70,11 @@ server = http.createServer( function(req, res) {
  
 });
  
-server.listen(PORT);
+// Don't do this...
+process.on('uncaughtException', function (err) {
+  console.log('Caught exception: ' + err);
+});
+
 console.log('Listening on port ' + PORT);
+
+server.listen(PORT);

@@ -86,6 +86,9 @@ body {
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script>
+
+var poll_interval_id = null;
+
 function startTimer(explosionTime) { // to be called when the bomb is armed
 	var timerText = document.getElementById("timer");
 	var subText = document.getElementById("subText");
@@ -118,15 +121,14 @@ function disarmed(){ // Call when bomb disarmed
 	document.getElementById("timer").className = "disarmed";
 }
 
-$(document).ready(function() {
-	$('#username').on('change', function(){
-
-		$.ajax({
+function getBombStatus(username){
+	$.ajax({
 			url: 'http://www.farragar.com:3000',
-			data: {username : $(this).val()},
+			data: {username : username},
 			crossDomain: true,
 			error: function(data){
 					$('#bad-player').show();
+					clearInterval(poll_interval_id);
 			},
 			success: function(data){
 				$('#bad-player').hide();
@@ -136,8 +138,15 @@ $(document).ready(function() {
 				}
 			}
 		});
+}
+
+$(document).ready(function() {
+	$('#username-form').on('submit', function(e){
+		e.preventDefault();
+		poll_interval_id = setInterval(getBombStatus, 500, $('#username').val());
 	});
 });
+
 
 </script>
 </head>
@@ -160,10 +169,13 @@ $(document).ready(function() {
     <div class="container">
 
       <div class="starter-template">
-      	<div class="input-group">
+      <form id="username-form" class="navbar-form navbar-left" role="search">
+      	<div class="form-group">
 					<input type="text" id="username" placeholder="Username" name="username" class="form-control">
-					<div class="alert alert-danger" role="alert" id="bad-player" style="display:none">No player found!</div>
+					<button type="submit" class="btn btn-default">Submit</button>
 				</div>
+				<div class="alert alert-danger" role="alert" id="bad-player" style="display:none">No player found!</div>
+				</form>
 				<p id="timer"></p>
 				<p id="subText"></p>
       </div>
