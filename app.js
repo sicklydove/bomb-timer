@@ -56,6 +56,11 @@ server = http.createServer( function(req, res) {
 
     // GET requests coming from client
     else {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Request-Method', '*');
+        res.setHeader('Access-Control-Allow-Headers', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+
         var qry = url.parse(req.url, true).query;
 
         res.writeHead(200, {'Content-Type': 'application/json'});

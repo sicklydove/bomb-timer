@@ -125,17 +125,14 @@ $(document).ready(function() {
 			url: 'http://www.farragar.com:3000',
 			data: {username : $(this).val()},
 			crossDomain: true,
-			success: function(data){
-				if(data == ''){
+			error: function(data){
 					$('#bad-player').show();
-				}
+			},
+			success: function(data){
+				$('#bad-player').hide();
 
-				else{
-					$('#bad-player').hide();
-
-					if(data['planted']){
-							startTimer(data['explodes_at']);
-					}
+				if(data['planted']){
+						startTimer(data['explodes_at']);
 				}
 			}
 		});
