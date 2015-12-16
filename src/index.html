@@ -35,7 +35,7 @@ function startTimer(explosionTime) {
 
 		theTime += timer_interval;
 		secTilSplode = (explosionTime - theTime)/1000;
-		secTilSplode = Math.max(0, secsTilSplode);
+		secTilSplode = Math.max(0, secTilSplode);
 	}, timer_interval);
 }
 
@@ -100,7 +100,7 @@ $(document).ready(function() {
       <div class="starter-template">
       <form id="username-form" class="navbar-form navbar-left" role="search">
       	<div class="form-group">
-					<input type="text" id="username" placeholder="Username" name="username" class="form-control">
+					<input type="text" id="username" placeholder="Username / 64bit SteamID" name="username" class="form-control">
 					<button type="submit" class="btn btn-default">Submit</button>
 				</div>
 				<div class="alert alert-danger" role="alert" id="bad-player" style="display:none">Player not in-game!</div>

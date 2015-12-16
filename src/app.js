@@ -2,12 +2,14 @@ http = require('http');
 fs = require('fs');
 url = require('url')
  
-BOMB_SECS = 40
-PORT = 3000;
+var BOMB_SECS = 40;
+var PORT = 3000;
 
 // Keep all users in in-memory cache
 // This'll work for now, but should be moved to mongo or something if popular
-users = {}
+var users = {};
+var username_to_steamid = {};
+
 server = http.createServer( function(req, res) {
  
     // POST requests coming from CSGO gamestate
@@ -23,12 +25,16 @@ server = http.createServer( function(req, res) {
             var gamestate = JSON.parse(body);
 
             var username = gamestate.player.name;
+            var steamid = gamestate.player.steamid;
 
-            if(!users.hasOwnProperty(username)){
-                users[username] = {'planted': false, 'explodes': null};
+            if(!users.hasOwnProperty(steamid)){
+                users[steamid] = {'planted': false, 'explodes': null};
+            }
+            if(!username_to_steamid.hasOwnProperty(username)){
+                username_to_steamid[username] = steamid;
             }
 
-            player = users[username];
+            var player = users[steamid];
 
             if(gamestate.hasOwnProperty('round')){
                 if(gamestate.round.bomb == "planted" && !player.planted){
@@ -43,11 +49,11 @@ server = http.createServer( function(req, res) {
                     player = {'planted': false, 'explodes': null};
                 }
 
-                users[username] = player;
+                users[steamid] = player;
             }
 
             if(gamestate.hasOwnProperty('map') && gamestate.map.phase == "gameover"){
-                delete(users[username]);
+                delete(users[steamid]);
             }
 
         	res.end('');
@@ -60,14 +66,21 @@ server = http.createServer( function(req, res) {
         res.setHeader('Access-Control-Request-Method', '*');
         res.setHeader('Access-Control-Allow-Headers', '*');
         res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+        res.writeHead(200, {'Content-Type': 'application/json'});
 
         var qry = url.parse(req.url, true).query;
         if(!qry.hasOwnProperty('username')){
             res.end('');
         }
 
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(users[qry.username]));
+        var steamid = qry.username;
+
+        // Make a best-guess if we only have username
+        if(isNaN(steamid)){
+            steamid = username_to_steamid[steamid];
+        }
+
+        res.end(JSON.stringify(users[steamid]));
     }
  
 });
