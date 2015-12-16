@@ -57,6 +57,7 @@ function getBombStatus(username){
 			success: function(data){
 				$('#bad-player').hide();
 				$('#good-player').show();
+				clearInterval(timer_interval_id);
 
 				if(data['planted']){
 						startTimer(data['explodes_at']);
@@ -65,7 +66,6 @@ function getBombStatus(username){
 				else{
 					$('#timer').removeClass('fiveToBoom');
 					$('#timer').hide();
-					clearInterval(timer_interval_id);
 				}
 			}
 		});
@@ -109,7 +109,6 @@ $(document).ready(function() {
 				<div class="alert alert-success" role="alert" id="good-player" style="display:none">Game found, watching for plants...</div>
 				</form>
 				<p id="timer"></p>
-				<p id="subText"></p>
       </div>
 
     </div><!-- /.container -->
