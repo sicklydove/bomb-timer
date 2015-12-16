@@ -12,12 +12,12 @@
 
 var poll_interval_id = null;
 var timer_interval_id = null;
-var $_GET = {};
 
 function getVars(){
 	//Code from gion_13 via StackExchange
 	if(document.location.toString().indexOf('?') !== -1) {
-	    var query = document.location
+		var qry_args = {};
+	  var query = document.location
 	                   .toString()
 	                   // get the query string
 	                   .replace(/^.*?\?/, '')
@@ -27,8 +27,10 @@ function getVars(){
 
 	    for(var i=0, l=query.length; i<l; i++) {
 	       var aux = decodeURIComponent(query[i]).split('=');
-	       $_GET[aux[0]] = aux[1];
+	       qry_args[aux[0]] = aux[1];
 	    }
+
+	    return qry_args;
 	}
 }
 
@@ -65,7 +67,7 @@ function disarmed(){ // Call when bomb disarmed
 
 function getBombStatus(username){
 	$.ajax({
-			url: 'http://www.farragar.com:3000',
+			url: 'http:www.farragar.com:3000',
 			data: {username : username},
 			crossDomain: true,
 			error: function(data){
@@ -91,16 +93,18 @@ function getBombStatus(username){
 }
 
 $(document).ready(function() {
-	if($_GET['u'] !== undefined){
-		$("#username").val($_GET['u']);
-		$('button[type=submit]').click()
-	}
 	$('#username-form').on('submit', function(e){
 		e.preventDefault();
 		poll_interval_id = setInterval(getBombStatus, 1000, $('#username').val());
 	});
-});
 
+	var qry_args = getVars();
+	if(qry_args['username'] !== undefined){
+		$("#username").val(qry_args['username']);
+		$('#username-form').submit();
+	}
+
+});
 
 </script>
 </head>
