@@ -99,7 +99,7 @@ $(document).ready(function() {
 	});
 
 	var qry_args = getVars();
-	if(qry_args['username'] !== undefined){
+	if(qry_args != undefined){
 		$("#username").val(qry_args['username']);
 		$('#username-form').submit();
 	}
